@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import './styles/editArticle.css';
 const url = process.env.REACT_APP_API_URL;
 
 export default function NewArticle() {
@@ -14,7 +15,7 @@ export default function NewArticle() {
 
   const navigate = useNavigate();
 
-  const save = async () => {
+  const handleSave = async () => {
     handleSubmit();
     navigate(`/`);
   };
@@ -34,28 +35,34 @@ export default function NewArticle() {
       });
   };
 
-  const publish = () => {
+  const handlePublish = () => {
     setStatus('published');
     handleSubmit();
   };
 
   return (
-    <div>
-      <button onClick={save} type="submit">
-        Save Draft
-      </button>
-      <button onClick={publish} type="submit">
-        Publish
-      </button>
-      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+    <div className="editArticle">
+      <div className="editHeader">
+        <button className="" onClick={handleSave} type="submit">
+          Save Draft
+        </button>
 
-      <ReactQuill
-        value={content}
-        onChange={setContent}
-        theme="snow"
-        modules={modules}
-        formats={formats}
-      />
+        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+
+        <button className="minor" onClick={handlePublish} type="submit">
+          Publish
+        </button>
+      </div>
+
+      <div className="quill">
+        <ReactQuill
+          value={content}
+          onChange={setContent}
+          theme="snow"
+          modules={modules}
+          formats={formats}
+        />
+      </div>
     </div>
   );
 }

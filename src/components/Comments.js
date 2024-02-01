@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../App';
+import './styles/comments.css';
 const url = process.env.REACT_APP_API_URL;
 const moment = require('moment');
 export default function Comments() {
@@ -35,16 +36,21 @@ export default function Comments() {
   };
 
   return (
-    <div>
+    <div className="comments">
       <h2>Comments</h2>
-      {comments.length === 0 && <p>No comments yet</p>}
       {comments.map((comment) => {
         return (
-          <div key={comment._id}>
-            <p>{comment.author.userName}</p>
-            <p>{moment(comment.date).format('MMM Do YYYY, hh:mm A')}</p>
-            <p>{comment.content}</p>
-            <button onClick={() => deleteComment(comment._id)}>Delete</button>
+          <div key={comment._id} className="comment">
+            <p className="commentUser">{comment.author.userName}</p>
+            <p className="commentDate">{moment(comment.date).format('MMM Do YYYY, hh:mm A')}</p>
+            <button className="commentDelete minor" onClick={() => deleteComment(comment._id)}>
+              Delete
+            </button>
+            <div className="commentContent">
+              {comment.content.split('\n').map((line, index) => (
+                <p key={comment._id + '-' + index}>{line}</p>
+              ))}
+            </div>
           </div>
         );
       })}
