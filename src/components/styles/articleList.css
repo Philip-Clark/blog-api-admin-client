@@ -9,6 +9,15 @@
   margin: auto;
   gap: 20px;
 }
+.articleList > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 120ch;
+  width: 100%;
+}
 
 .newArticleButton {
   margin-top: 2em;

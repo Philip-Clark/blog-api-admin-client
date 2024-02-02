@@ -10,22 +10,41 @@ const url = process.env.REACT_APP_API_URL;
 const ArticleList = () => {
   const [articles, setArticles] = useState([]);
   const [articlesUpdated, setArticlesUpdated] = useState(0);
-  const { userID } = useContext(AuthContext);
+  const { userID, userRole } = useContext(AuthContext);
   const navigate = useNavigate();
   const renderArticles = () => {
     if (articles.length === 0) return <p>No articles</p>;
-    return articles
-      .filter((article) => article.author._id === userID)
-      .map((article) => {
-        return (
-          <ArticleListItem
-            key={article._id}
-            article={article}
-            setArticlesUpdated={setArticlesUpdated}
-            articlesUpdated={articlesUpdated}
-          />
-        );
-      });
+    return (
+      <div>
+        <h2>My articles</h2>
+        {articles
+          .filter((article) => article.author._id === userID)
+          .map((article) => {
+            return (
+              <ArticleListItem
+                key={article._id}
+                article={article}
+                setArticlesUpdated={setArticlesUpdated}
+                articlesUpdated={articlesUpdated}
+              />
+            );
+          })}
+        {userID === '65b430d68ed776359a8a2883' && <h2> Other's articles</h2>}
+        {userID === '65b430d68ed776359a8a2883' &&
+          articles
+            .filter((article) => article.author._id !== userID)
+            .map((article) => {
+              return (
+                <ArticleListItem
+                  key={article._id}
+                  article={article}
+                  setArticlesUpdated={setArticlesUpdated}
+                  articlesUpdated={articlesUpdated}
+                />
+              );
+            })}
+      </div>
+    );
   };
 
   const handleNew = () => {
